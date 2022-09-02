@@ -33,10 +33,13 @@ df.to_sql(
     if_exists="replace",
 )
 
+# Add column for the altitude of each station
 cur.execute("""ALTER TABLE towns ADD COLUMN Höhe 'integer'""")
+# Select coordinates
 cur.execute("""SELECT rowid, e, n FROM towns""")
 data = cur.fetchall()
 
+# Request elevation and make table entry for each row
 for row in data:
     time.sleep(1) # Do not overload API
     try:
@@ -49,4 +52,5 @@ for row in data:
         print(e)
         pass
 
+# Close db connection
 cnx.close()
